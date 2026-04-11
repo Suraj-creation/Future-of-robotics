@@ -1,0 +1,14 @@
+services:
+  ur5-sim:
+    image: vishalrobotics/ur5-hackathon-env:latest
+    container_name: ur5_hackathon
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    privileged: true
+    network_mode: host
+    stdin_open: true
+    tty: true
+    command: bash

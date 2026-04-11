@@ -1,0 +1,20 @@
+# ROS 2 Build artifacts
+ur5_ws/build/
+ur5_ws/install/
+ur5_ws/log/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
