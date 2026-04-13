@@ -27,6 +27,7 @@ setup(
         'console_scripts': [
             'insert_obstacle = ur5_moveit.insert_obstacle:main',
             'add_scene_objects = ur5_moveit.add_scene_objects:main',
+            'keyboard_teleop = ur5_moveit.keyboard_teleop:main',
         ],
     },
 )

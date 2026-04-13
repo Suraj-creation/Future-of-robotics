@@ -3,7 +3,7 @@ from pathlib import Path
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable
-from launch.substitutions import Command, LaunchConfiguration
+from launch.substitutions import Command, LaunchConfiguration, PythonExpression
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
@@ -12,12 +12,36 @@ from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
     ur5_description = get_package_share_directory("ur5_description")
+
+    world_arg = DeclareLaunchArgument(
+        name="world",
+        default_value=os.path.join(ur5_description, "worlds", "gazebo_world.sdf"),
+        description="Absolute path to Gazebo world file"
+    )
+
+    headless_arg = DeclareLaunchArgument(
+        name="headless",
+        default_value="false",
+        description="Run Gazebo server only (-s), disables GUI for better performance"
+    )
+
+    verbosity_arg = DeclareLaunchArgument(
+        name="verbosity",
+        default_value="2",
+        description="Gazebo log verbosity"
+    )
     
     model_arg = DeclareLaunchArgument(
         name="model", 
         default_value=os.path.join(ur5_description, "urdf", "ur5_robot.urdf.xacro"),
         description="Absolute path to robot urdf file"
     )
+
+    headless_flag = PythonExpression([
+        "' -s' if '",
+        LaunchConfiguration("headless"),
+        "'.lower() in ['true', '1', 'yes'] else ''"
+    ])
     
     gazebo_resource_path = SetEnvironmentVariable(
         name="GZ_SIM_RESOURCE_PATH",
@@ -45,9 +69,11 @@ def generate_launch_description():
         ]),
         launch_arguments=[
             ('gz_args', [
-                os.path.join(ur5_description, "worlds", "gazebo_world.sdf"),
-                ' -v 4',
+                LaunchConfiguration("world"),
+                ' -v ',
+                LaunchConfiguration("verbosity"),
                 ' -r',
+                headless_flag,
                 ' --physics-engine gz-physics-bullet-featherstone-plugin'
             ])
         ]
@@ -70,6 +96,9 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        world_arg,
+        headless_arg,
+        verbosity_arg,
         model_arg,
         gazebo_resource_path,
         robot_state_publisher_node,

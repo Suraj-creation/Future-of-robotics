@@ -1,0 +1,31 @@
+﻿1) Reboot Windows once.
+
+2) Open PowerShell as Administrator and run:
+   wsl --install --no-distribution
+
+3) Reboot again.
+
+4) Verify platform:
+   wsl --status
+
+5) Initialize Ubuntu app once (normal terminal):
+   ubuntu2404.exe
+   (create username/password, then exit)
+
+6) Move Ubuntu distro storage to D:
+   wsl --shutdown
+   wsl --export Ubuntu-24.04 D:\WSL\ubuntu2404.tar
+   wsl --unregister Ubuntu-24.04
+   wsl --import Ubuntu-24.04 D:\WSL\Ubuntu-24.04 D:\WSL\ubuntu2404.tar --version 2
+   del D:\WSL\ubuntu2404.tar
+
+7) Open Docker Desktop and set disk image location to:
+   D:\DockerData
+   then Apply and Restart.
+
+8) Open Ubuntu-24.04 and clone/use project from:
+   /mnt/d/Future-of-robotics/physical-ai-challenge-2026
+
+9) From project folder in Ubuntu:
+   docker compose up -d
+   docker exec -it ur5_hackathon bash
