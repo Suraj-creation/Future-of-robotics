@@ -62,6 +62,16 @@ ros2 launch ur5_moveit simulated_robot.launch.py
 ```
 *(Keep this terminal open, and open a second terminal for the next commands by running `docker exec -it ur5_hackathon bash` again).*
 
+For lower-lag simulation on slower laptops, run headless Gazebo server mode:
+```bash
+ros2 launch ur5_moveit simulated_robot.launch.py headless:=true use_rviz:=false verbosity:=1
+```
+
+If you want the Gazebo GUI but less console and rendering load:
+```bash
+ros2 launch ur5_moveit simulated_robot.launch.py use_rviz:=false verbosity:=1
+```
+
 ### 2. Set Up the Environment
 Spawn the tables and cubes into MoveIt's planning scene:
 ```bash
@@ -77,6 +87,24 @@ ros2 run ur5_moveit insert_obstacle --x 0.3 --y -0.2 --z 0.5 --radius 0.04 --hei
 # Remove the obstacle
 ros2 run ur5_moveit insert_obstacle --name obstacle --remove
 ```
+
+### 4. Keyboard Jog Control (UR5 arm)
+Open another container terminal and run:
+```bash
+ros2 run ur5_moveit keyboard_teleop
+```
+
+Key map:
+- `q/a`: shoulder pan +/-
+- `w/s`: shoulder lift +/-
+- `e/d`: elbow +/-
+- `r/f`: wrist_1 +/-
+- `t/g`: wrist_2 +/-
+- `y/h`: wrist_3 +/-
+- `z`: move to home pose
+- `x`: quit teleop
+
+Tip: click the teleop terminal before pressing keys so it captures your keyboard input.
 
 ---
 
