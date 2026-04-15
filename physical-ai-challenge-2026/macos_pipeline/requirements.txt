@@ -1,0 +1,10 @@
+ultralytics
+onnx
+onnxruntime
+open3d
+opencv-python
+numpy
+matplotlib
+pillow
+scipy
+mujoco
