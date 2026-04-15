@@ -1,0 +1,79 @@
+<mujoco model="task1_pick_place_scene">
+    <include file="so101_new_calib.xml" />
+      <option>
+            <flag multiccd="disable" nativeccd="disable"/>
+      </option>
+
+    <visual>
+        <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0" />
+        <rgba haze="0.15 0.25 0.35 1" />
+        <global azimuth="160" elevation="-20" />
+    </visual>
+
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512"
+            height="3072" />
+        <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4"
+            rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="300" height="300" />
+        <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"
+            reflectance="0.2" />
+        <material name="table_wood" rgba="0.58 0.39 0.24 1" />
+        <material name="table_metal" rgba="0.28 0.28 0.28 1" />
+        <material name="red_object" rgba="0.9 0.15 0.15 1" />
+        <material name="pick_zone" rgba="0.96 0.82 0.20 1" />
+        <material name="place_zone" rgba="0.15 0.80 0.28 1" />
+    </asset>
+
+    <worldbody>
+        <light pos="0 0 3.5" dir="0 0 -1" directional="true" />
+        <geom name="floor" size="0 0 0.05" pos="0 0 0" type="plane" material="groundplane" />
+        <camera name="task1_overhead" mode="fixed" pos="0.21 0.10 0.65" />
+
+        <body name="workbench" pos="0 0 0">
+            <geom name="table_top" type="box" pos="0 0 -0.025" size="0.6 0.4 0.025"
+                  material="table_wood" contype="1" conaffinity="1" />
+            <geom name="leg_fl" type="box" pos=" 0.55  0.35 -0.4" size="0.035 0.035 0.375"
+                  material="table_metal" />
+            <geom name="leg_fr" type="box" pos=" 0.55 -0.35 -0.4" size="0.035 0.035 0.375"
+                  material="table_metal" />
+            <geom name="leg_rl" type="box" pos="-0.55  0.35 -0.4" size="0.035 0.035 0.375"
+                  material="table_metal" />
+            <geom name="leg_rr" type="box" pos="-0.55 -0.35 -0.4" size="0.035 0.035 0.375"
+                  material="table_metal" />
+        </body>
+
+      <body name="pick_square_marker" pos="0.16 0.14 0.001">
+            <geom name="pick_square_fill" type="box" pos="0 0 -0.0005" size="0.048 0.048 0.0005"
+                  material="pick_zone" contype="0" conaffinity="0" />
+            <geom name="pick_square_top" type="box" pos="0 0.055 0" size="0.055 0.004 0.0015"
+                  material="pick_zone" contype="0" conaffinity="0" />
+            <geom name="pick_square_bottom" type="box" pos="0 -0.055 0" size="0.055 0.004 0.0015"
+                  material="pick_zone" contype="0" conaffinity="0" />
+            <geom name="pick_square_left" type="box" pos="-0.055 0 0" size="0.004 0.055 0.0015"
+                  material="pick_zone" contype="0" conaffinity="0" />
+            <geom name="pick_square_right" type="box" pos="0.055 0 0" size="0.004 0.055 0.0015"
+                  material="pick_zone" contype="0" conaffinity="0" />
+        </body>
+
+      <body name="place_square_marker" pos="0.34 -0.06 0.001">
+            <geom name="place_square_fill" type="box" pos="0 0 -0.0005" size="0.028 0.028 0.0005"
+                  material="place_zone" contype="0" conaffinity="0" />
+            <geom name="place_square_top" type="box" pos="0 0.035 0" size="0.035 0.004 0.0015"
+                  material="place_zone" contype="0" conaffinity="0" />
+            <geom name="place_square_bottom" type="box" pos="0 -0.035 0" size="0.035 0.004 0.0015"
+                  material="place_zone" contype="0" conaffinity="0" />
+            <geom name="place_square_left" type="box" pos="-0.035 0 0" size="0.004 0.035 0.0015"
+                  material="place_zone" contype="0" conaffinity="0" />
+            <geom name="place_square_right" type="box" pos="0.035 0 0" size="0.004 0.035 0.0015"
+                  material="place_zone" contype="0" conaffinity="0" />
+        </body>
+
+      <body name="red_box" pos="0.16 0.14 0.020">
+            <freejoint name="red_box_joint" />
+                  <inertial pos="0 0 0" mass="0.03" diaginertia="2.40e-05 2.40e-05 1.80e-05" />
+                  <geom name="red_box_geom" type="box" size="0.020 0.020 0.020"
+                  material="red_object" friction="0.8 0.005 0.0001" />
+                          <geom name="red_box_center_marker" type="sphere" pos="0 0 0" size="0.003" rgba="0.0 0.9 0.9 0.95" contype="0" conaffinity="0" />
+        </body>
+    </worldbody>
+</mujoco>

@@ -1,0 +1,69 @@
+<mujoco model="task3_pouring_scene">
+    <size njmax="2000" nconmax="2000" nstack="1000000"/>
+    <include file="so101_new_calib.xml" />
+
+    <visual>
+        <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0" />
+        <rgba haze="0.15 0.25 0.35 1" />
+        <global azimuth="160" elevation="-20" />
+    </visual>
+
+    <asset>
+        <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072" />
+        <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="300" height="300" />
+        <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2" />
+        <material name="table_wood" rgba="0.58 0.39 0.24 1" />
+        <material name="table_metal" rgba="0.28 0.28 0.28 1" />
+        <material name="bottle_plastic" rgba="0.70 0.86 1.0 0.22" />
+        <material name="bottle_label" rgba="0.10 0.35 0.85 1" />
+        <material name="bottle_cap" rgba="0.95 0.95 0.95 1" />
+        <material name="water_liquid" rgba="0.10 0.45 0.95 0.72" />
+        <material name="glass_clear" rgba="0.92 0.96 1.0 0.20" />
+        <material name="glass_rim" rgba="0.98 0.94 0.65 0.70" />
+    </asset>
+
+    <worldbody>
+        <light pos="0 0 3.5" dir="0 0 -1" directional="true" />
+        <geom name="floor" size="0 0 0.05" pos="0 0 0" type="plane" material="groundplane" />
+
+        <body name="workbench" pos="0 0 0">
+            <geom name="table_top" type="box" pos="0 0 -0.025" size="0.6 0.4 0.025" material="table_wood" contype="1" conaffinity="1" />
+            <geom name="leg_fl" type="box" pos=" 0.55  0.35 -0.4" size="0.035 0.035 0.375" material="table_metal" />
+            <geom name="leg_fr" type="box" pos=" 0.55 -0.35 -0.4" size="0.035 0.035 0.375" material="table_metal" />
+            <geom name="leg_rl" type="box" pos="-0.55  0.35 -0.4" size="0.035 0.035 0.375" material="table_metal" />
+            <geom name="leg_rr" type="box" pos="-0.55 -0.35 -0.4" size="0.035 0.035 0.375" material="table_metal" />
+        </body>
+
+        <body name="pour_bottle" pos="0.23 -0.10 0.032">
+            <freejoint name="pour_bottle_joint" />
+            <inertial pos="0 0 0" mass="0.07" diaginertia="5.0e-05 5.0e-05 1.5e-05" />
+            <geom name="bottle_body_geom" type="cylinder" size="0.020 0.075" material="bottle_plastic" friction="0.9 0.005 0.0001" />
+            <geom name="bottle_shoulder_geom" type="cylinder" pos="0 0 0.075" size="0.014 0.016" material="bottle_plastic" friction="0.9 0.005 0.0001" />
+            <geom name="bottle_neck_geom" type="cylinder" pos="0 0 0.097" size="0.008 0.010" material="bottle_plastic" friction="0.9 0.005 0.0001" />
+            <geom name="bottle_cap_geom" type="cylinder" pos="0 0 0.113" size="0.009 0.006" material="bottle_cap" friction="0.9 0.005 0.0001" />
+            <geom name="bottle_label_geom" type="cylinder" pos="0 0 -0.005" size="0.0205 0.025" material="bottle_label" contype="0" conaffinity="0" />
+            <geom name="bottle_water_geom" type="cylinder" pos="0 0 -0.018" size="0.016 0.043" material="water_liquid" contype="0" conaffinity="0" />
+            <site name="bottle_spout" pos="0 0 0.122" size="0.004" rgba="1 0 0 1" />
+        </body>
+
+        <body name="pour_cup" pos="0.23 0.12 0.032">
+            <freejoint name="pour_cup_joint" />
+            <inertial pos="0 0 0" mass="0.05" diaginertia="3.2e-05 3.2e-05 1.8e-05" />
+            <geom name="glass_base" type="cylinder" pos="0 0 -0.038" size="0.026 0.004" material="glass_rim" friction="0.8 0.005 0.0001" />
+            <geom name="glass_wall_1" type="box" pos="0.024 0.0 0.000" size="0.002 0.020 0.039" material="glass_clear" friction="0.8 0.005 0.0001" />
+            <geom name="glass_wall_2" type="box" pos="-0.024 0.0 0.000" size="0.002 0.020 0.039" material="glass_clear" friction="0.8 0.005 0.0001" />
+            <geom name="glass_wall_3" type="box" pos="0.0 0.024 0.000" size="0.020 0.002 0.039" material="glass_clear" friction="0.8 0.005 0.0001" />
+            <geom name="glass_wall_4" type="box" pos="0.0 -0.024 0.000" size="0.020 0.002 0.039" material="glass_clear" friction="0.8 0.005 0.0001" />
+            <geom name="glass_rim_front" type="box" pos="0.000 0.025 0.041" size="0.021 0.0012 0.0015" material="glass_rim" contype="0" conaffinity="0" />
+            <geom name="glass_rim_back" type="box" pos="0.000 -0.025 0.041" size="0.021 0.0012 0.0015" material="glass_rim" contype="0" conaffinity="0" />
+            <geom name="glass_rim_left" type="box" pos="-0.025 0.000 0.041" size="0.0012 0.021 0.0015" material="glass_rim" contype="0" conaffinity="0" />
+            <geom name="glass_rim_right" type="box" pos="0.025 0.000 0.041" size="0.0012 0.021 0.0015" material="glass_rim" contype="0" conaffinity="0" />
+            <geom name="glass_water_target" type="cylinder" pos="0 0 -0.020" size="0.017 0.010" material="water_liquid" contype="0" conaffinity="0" />
+            <site name="cup_mouth" pos="0 0 0.045" size="0.004" rgba="0 1 0 1" />
+        </body>
+
+        <body name="task3_target" pos="0.23 0.12 0.078">
+            <site name="pour_target" pos="0 0 0" size="0.006" rgba="1 1 0 1" />
+        </body>
+    </worldbody>
+</mujoco>
