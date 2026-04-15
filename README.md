@@ -17,17 +17,21 @@ This repository contains three main tracks:
 - LeRobot project documentation:
   - [Lerobot/README.md](Lerobot/README.md)
 
-## Demo: End-to-End Autonomous Pick-and-Place (Video)
+## Demo: End-to-End Autonomous Pick-and-Place (Videos)
 
-We have demonstrated the complete end-to-end task of autonomous pick and place using the SO101 stack. The following video shows the system performing detection, planning, grasping, and placing objects in a fully autonomous loop:
+We have demonstrated the complete end-to-end task of autonomous pick and place using the SO101 stack. The following videos show the system performing detection, planning, grasping, and placing objects in a fully autonomous loop:
 
-▶️ **Watch the demo:** [YouTube Shorts – SO101 Autonomous Pick and Place](https://youtu.be/xQvq_s-_5pw)
+**Full Demo:**
+▶️ [YouTube Shorts – SO101 Autonomous Pick and Place](https://youtu.be/xQvq_s-_5pw)
 
 <p align="center">
   <a href="https://youtu.be/xQvq_s-_5pw" target="_blank">
     <img src="https://img.youtube.com/vi/xQvq_s-_5pw/hqdefault.jpg" alt="SO101 Pick and Place Demo" width="480"/>
   </a>
 </p>
+
+**Additional Demo:**
+▶️ [YouTube Shorts – SO101 Demo Clip](https://www.youtube.com/shorts/cxr798EuQPg)
 
 **Highlights:**
 - End-to-end autonomous operation: perception, planning, grasp, place, and verification
