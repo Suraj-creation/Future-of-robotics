@@ -460,3 +460,25 @@ Before moving to real SO101:
 ---
 
 This README is designed as the canonical operations guide for your current challenge implementation trajectory: baseline SO101 reliability first, then policy learning depth, then advanced autonomy.
+
+---
+
+## 13) Demo: End-to-End Autonomous Pick-and-Place (Video)
+
+We have demonstrated the complete end-to-end task of autonomous pick and place using the SO101 stack. The following video shows the system performing detection, planning, grasping, and placing objects in a fully autonomous loop:
+
+▶️ **Watch the demo:** [YouTube Shorts – SO101 Autonomous Pick and Place](https://youtu.be/xQvq_s-_5pw)
+
+<p align="center">
+   <a href="https://youtu.be/xQvq_s-_5pw" target="_blank">
+      <img src="https://img.youtube.com/vi/xQvq_s-_5pw/hqdefault.jpg" alt="SO101 Pick and Place Demo" width="480"/>
+   </a>
+</p>
+
+**Highlights:**
+- End-to-end autonomous operation: perception, planning, grasp, place, and verification
+- SO101 robot in simulation with real-time feedback
+- Robust to scene changes and object positions
+- Fully reproducible using this repository and instructions above
+
+---
