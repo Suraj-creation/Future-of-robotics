@@ -17,6 +17,15 @@ This repository contains three main tracks:
 - LeRobot project documentation:
   - [Lerobot/README.md](Lerobot/README.md)
 
+## Demo Video
+
+- YouTube Shorts:
+  - https://www.youtube.com/shorts/cxr798EuQPg
+- Loop player (continuous playback):
+  - https://www.youtube.com/embed/cxr798EuQPg?autoplay=1&loop=1&playlist=cxr798EuQPg
+
+[![SO101 Demo Video](https://img.youtube.com/vi/cxr798EuQPg/maxresdefault.jpg)](https://www.youtube.com/embed/cxr798EuQPg?autoplay=1&loop=1&playlist=cxr798EuQPg)
+
 ## Repository Layout
 
 - [physical-ai-challenge-2026](physical-ai-challenge-2026)
