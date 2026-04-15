@@ -1,10 +1,10 @@
 # Physical AI Challenge 2026
 
-## UR5 Autonomous Pick-and-Place: Complete Process and Training Guide
+## SO101 Autonomous Pick-and-Place: Complete Process and Training Guide
 
 This repository now serves as a full execution reference for the workflow you followed in `Context/Plan-1.md`:
 
-- **Core challenge stack:** UR5 + ROS 2 Jazzy + Gazebo Harmonic + MoveIt 2 (Dockerized).
+- **Core challenge stack:** SO101 + ROS 2 Jazzy + Gazebo Harmonic + MoveIt 2 (Dockerized).
 - **Learning and policy stack:** MuJoCo + YOLOv8 + ACT + DenseFusion prototype in `macos_pipeline/`.
 - **Strategy:** simulation-first baseline, then robustness, then learning policy integration.
 
@@ -16,9 +16,9 @@ This README is intentionally deep and operational. It explains the entire pick-a
 
 ### Implemented and runnable now
 
-1. **UR5 simulation bring-up**
+1. **SO101 simulation bring-up**
    - Launches Gazebo + ros2_control + MoveIt + RViz using:
-   - `ros2 launch ur5_moveit simulated_robot.launch.py`
+   - `ros2 launch so101_moveit simulated_robot.launch.py`
 
 2. **Planning-scene setup utilities**
    - `add_scene_objects`: adds ground, pick table, place table, and three cubes.
@@ -39,7 +39,7 @@ This README is intentionally deep and operational. It explains the entire pick-a
 
 ### Important design note
 
-The **UR5 ROS stack** is the challenge-faithful environment. The **macOS pipeline** is a practical learning/policy sandbox for fast iteration on perception and imitation policy ideas.
+The **SO101 ROS stack** is the challenge-faithful environment. The **macOS pipeline** is a practical learning/policy sandbox for fast iteration on perception and imitation policy ideas.
 
 ---
 
@@ -56,7 +56,7 @@ The **UR5 ROS stack** is the challenge-faithful environment. The **macOS pipelin
 
 ### What this repository currently uses
 
-- **UR5 stack:** robust simulation + planning + scene management.
+- **SO101 stack:** robust simulation + planning + scene management.
 - **Policy/perception experimentation:** MuJoCo loop with pluggable YOLO and ACT.
 - **Training interfaces:** data collection, YOLO train path, ACT model-loading path, DenseFusion prototype.
 
@@ -71,12 +71,12 @@ The **UR5 ROS stack** is the challenge-faithful environment. The **macOS pipelin
 - `runbook.md`: detailed canonical runtime instructions.
 - `Context/Plan-1.md`: canonical architecture/research plan you followed.
 
-### UR5 ROS2 workspace
+### SO101 ROS2 workspace
 
-- `ur5_ws/src/ur5_description/`: URDF/Xacro, Gazebo world, ROS-GZ bridge config.
-- `ur5_ws/src/ur5_controller/`: ros2_control controller configuration and launch.
-- `ur5_ws/src/ur5_moveit/`: MoveIt launch + planning-scene utility scripts.
-- `ur5_ws/src/ur5_moveit/config/ur5_robot.srdf`: semantic model (planning groups, end-effector).
+- `so101_ws/src/so101_description/`: URDF/Xacro, Gazebo world, ROS-GZ bridge config.
+- `so101_ws/src/so101_controller/`: ros2_control controller configuration and launch.
+- `so101_ws/src/so101_moveit/`: MoveIt launch + planning-scene utility scripts.
+- `so101_ws/src/so101_moveit/config/so101_robot.srdf`: semantic model (planning groups, end-effector).
 
 ### Learning / policy pipeline
 
@@ -88,7 +88,7 @@ The **UR5 ROS stack** is the challenge-faithful environment. The **macOS pipelin
 
 ---
 
-## 4) UR5 Challenge Stack: Start and Run (Docker)
+## 4) SO101 Challenge Stack: Start and Run (Docker)
 
 ## Prerequisites
 
@@ -121,33 +121,33 @@ docker compose -f docker-compose.windows.yml up -d
 Enter container:
 
 ```bash
-docker exec -it ur5_hackathon bash
+docker exec -it so101_hackathon bash
 ```
 
 Inside container, launch full stack:
 
 ```bash
 source /opt/ros/jazzy/setup.bash
-source /ur5_ws/install/setup.bash
+source /so101_ws/install/setup.bash
 
-ros2 launch ur5_moveit simulated_robot.launch.py
+ros2 launch so101_moveit simulated_robot.launch.py
 ```
 
 In a second container terminal, add scene:
 
 ```bash
-docker exec -it ur5_hackathon bash
+docker exec -it so101_hackathon bash
 source /opt/ros/jazzy/setup.bash
-source /ur5_ws/install/setup.bash
+source /so101_ws/install/setup.bash
 
-ros2 run ur5_moveit add_scene_objects
+ros2 run so101_moveit add_scene_objects
 ```
 
 Optional dynamic obstacle test:
 
 ```bash
-ros2 run ur5_moveit insert_obstacle --x 0.3 --y -0.2 --z 0.5 --radius 0.04 --height 0.25
-ros2 run ur5_moveit insert_obstacle --name obstacle --remove
+ros2 run so101_moveit insert_obstacle --x 0.3 --y -0.2 --z 0.5 --radius 0.04 --height 0.25
+ros2 run so101_moveit insert_obstacle --name obstacle --remove
 ```
 
 ---
@@ -180,7 +180,7 @@ Target signal chain:
 
 Current status in this repo:
 
-- The UR5 environment and bridge are ready.
+- The SO101 environment and bridge are ready.
 - Camera perception node integration is part of the next layer to attach (as described in `Context/Plan-1.md`).
 - Policy/perception experimentation is actively implemented in `macos_pipeline/`.
 
@@ -319,18 +319,18 @@ Typical LeRobot flow (from Plan-1 approach):
 pip install lerobot
 
 # Record demonstrations
-python -m lerobot.record --repo-id my_ur5_pick_place --num-episodes 100
+python -m lerobot.record --repo-id my_so101_pick_place --num-episodes 100
 
 # Train ACT
 python -m lerobot.train \
   --policy-path lerobot/configs/policy/act.yaml \
-  --dataset-repo-id my_ur5_pick_place \
-  --output-dir outputs/train/ur5_act
+  --dataset-repo-id my_so101_pick_place \
+  --output-dir outputs/train/so101_act
 ```
 
 Then run this repository in `mode='model'` by passing:
 
-- `--act-model outputs/train/ur5_act/...`
+- `--act-model outputs/train/so101_act/...`
 
 ## E) DenseFusion prototype training
 
@@ -370,7 +370,7 @@ Track minimum metrics every run:
 1. In `add_scene_objects.py`, objects are published in `base_link` frame.
 2. In `insert_obstacle.py`, obstacles are published in `world` frame.
 3. Do not mix these frames without TF conversion.
-4. Use semantic planning group exactly as configured in SRDF (`ur5_arm` in this repo).
+4. Use semantic planning group exactly as configured in SRDF (`so101_arm` in this repo).
 
 ---
 
@@ -401,7 +401,7 @@ Windows 10:
 
 ```bash
 source /opt/ros/jazzy/setup.bash
-source /ur5_ws/install/setup.bash
+source /so101_ws/install/setup.bash
 ```
 
 ## MuJoCo model not found in macOS pipeline
@@ -422,7 +422,7 @@ python run_pipeline.py --test-imports
 
 ## 10) Sim2Real Readiness Checklist
 
-Before moving to real UR5:
+Before moving to real SO101:
 
 1. Camera intrinsics/extrinsics calibrated
 2. TF chain validated end-to-end
@@ -435,13 +435,13 @@ Before moving to real UR5:
 
 ## 11) Recommended Execution Order (Practical)
 
-1. Start UR5 docker stack and verify stable simulation.
+1. Start SO101 docker stack and verify stable simulation.
 2. Validate planning scene and obstacle insertion.
 3. Run autonomous MuJoCo loop to validate policy/perception interfaces.
 4. Collect training rollouts.
 5. Train YOLO and ACT checkpoints.
 6. Re-run with trained checkpoints and compare metrics.
-7. Integrate trained perception/policy into UR5 ROS stack.
+7. Integrate trained perception/policy into SO101 ROS stack.
 
 ---
 
@@ -449,8 +449,8 @@ Before moving to real UR5:
 
 1. `Context/Plan-1.md`
 2. `runbook.md`
-3. `ur5_ws/src/ur5_moveit/launch/simulated_robot.launch.py`
-4. `ur5_ws/src/ur5_moveit/ur5_moveit/add_scene_objects.py`
+3. `so101_ws/src/so101_moveit/launch/simulated_robot.launch.py`
+4. `so101_ws/src/so101_moveit/so101_moveit/add_scene_objects.py`
 5. `macos_pipeline/run_autonomous.py`
 6. `macos_pipeline/collect_training_data.py`
 7. `macos_pipeline/policy/act_policy.py`
@@ -459,4 +459,4 @@ Before moving to real UR5:
 
 ---
 
-This README is designed as the canonical operations guide for your current challenge implementation trajectory: baseline UR5 reliability first, then policy learning depth, then advanced autonomy.
+This README is designed as the canonical operations guide for your current challenge implementation trajectory: baseline SO101 reliability first, then policy learning depth, then advanced autonomy.
